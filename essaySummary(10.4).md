@@ -22,7 +22,7 @@
                   }
   ```
 
-* 分治法的策略![image-20211005163500996](essaySummary(10.4).assets/image-20211005163500996.png)
+* 分治法的策略![image-20211005163500996](essaySummary.assets/image-20211005163500996.png)
 
 - ```c++
   //WET
@@ -76,19 +76,19 @@
 
 #### 2.3、分配提出了 Clockwise Best-Fit (CBF) 策略，具体实现是将page分成64个单元，最后一个单元存放元数据。元数据中记录page中空闲内存的信息，例如 单元空闲位映射、空闲单元总数、最大连续空闲单元，使用DRAM存储bucket桶按最大连续空闲内存用双链表连接。当需要分配内存时，按照best-fit算法从链表中按顺序拿出page分配。bucket桶在NVM内存中具有备份。
 
-![image-20211008101615198](essaySummary(10.4).assets/image-20211008101615198.png)
+![image-20211008101615198](essaySummary.assets/image-20211008101615198.png)
 
-![image-20211008101630496](essaySummary(10.4).assets/image-20211008101630496.png)
+![image-20211008101630496](essaySummary.assets/image-20211008101630496.png)
 
 #### 算法实现：
 
-![image-20211008101752393](essaySummary(10.4).assets/image-20211008101752393.png)
+![image-20211008101752393](essaySummary.assets/image-20211008101752393.png)
 
 #### 2.4、释放操作，每次释放操作，就将元数据进行更改即可，并不改变 page在bucket中的位置。
 
 #### 2.5、重置操作，由于释放操作的存在，使得桶内page内的空闲空间变多，需要重置每个桶的page。
 
-![image-20211008103921534](essaySummary(10.4).assets/image-20211008103921534.png)
+![image-20211008103921534](essaySummary.assets/image-20211008103921534.png)
 
 #### 文中当桶内页面的空闲平均值大于该桶的预设值K时重置该桶的page。
 
