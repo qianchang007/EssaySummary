@@ -22,7 +22,7 @@
                   }
   ```
 
-* 分治法的策略![image-20211005163500996](essaySummary.assets/image-20211005163500996.png)
+* 分治法的策略![image-20211005163500996](../essaySummary.assets/image-20211005163500996.png)
 
 - ```c++
   //WET
