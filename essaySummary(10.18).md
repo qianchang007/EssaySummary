@@ -5,9 +5,9 @@
 #### 1.2、下面是作者列举的现有的索引结构：
 
 - **Level hash** 是指使用两层hash结构，上层是下层的两倍大小。当需要resize时，只需要再增加一层大小为当前上层两倍的结构，然后将当前下层重新hash到新的一层，再把当前下层删去，这样就能将每次resize的hash次数减少到原来的1/3。但是level hash 的resize是当线程的，并且需要全局锁来保证正确性。
-- **P-CLHT**是Cache-Line Hash Table (CLHT)的变种，其search操作是lock-free。其resize操作需要rehash所有元素，并且会阻塞其他进程直到resize完成。
-- **Cacheline-Conscious Extendible Hashing (CCEH)**是持久化的可扩展hash模式，支持基于锁的动态resize，但是其粗粒度的锁会极大地增加共享资源的延迟。具体地说，它将1024个slot分为一个segment，加锁时为每个segment加写锁。而且，当其目录需要resize时，需要全局写锁。CCEH的CoW版本可以避免segment lock，但是会增加额外的写代价。
--  **concurrent_hash_map (cmap)**是pmemkv的开源并行hash_map实现。cmap利用lazy rehash 将数据迁移缓冲到之后的访问中。但是之后的延迟的开销可能会聚集递归执行在某些访问中，导致了访问性能的不确定性。
+- **P-CLHT** 是Cache-Line Hash Table (CLHT)的变种，其search操作是lock-free。其resize操作需要rehash所有元素，并且会阻塞其他进程直到resize完成。
+- **Cacheline-Conscious Extendible Hashing (CCEH)** 是持久化的可扩展hash模式，支持基于锁的动态resize，但是其粗粒度的锁会极大地增加共享资源的延迟。具体地说，它将1024个slot分为一个segment，加锁时为每个segment加写锁。而且，当其目录需要resize时，需要全局写锁。CCEH的CoW版本可以避免segment lock，但是会增加额外的写代价。
+-  **concurrent_hash_map (cmap)** 是pmemkv的开源并行hash_map实现。cmap利用lazy rehash 将数据迁移缓冲到之后的访问中。但是之后的延迟的开销可能会聚集递归执行在某些访问中，导致了访问性能的不确定性。
 - ![image-20211021144811216](essaySummary.assets/image-20211021144811216.png)
 
 #### 1.3、作者提出的Clevel hashing 模式主要解决以下两个问题：
